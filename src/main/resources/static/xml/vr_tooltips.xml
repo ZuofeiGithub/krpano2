@@ -1,0 +1,35 @@
+<krpano>
+
+    <!-- Tooltips VR -->
+
+    <!-- skin_hotspotstyle_vr - style for the hotspots with VR enabled tooltips -->
+    <style name="skin_hotspotstyle_vr" url="up.png" scale="0.5" edge="top" distorted="true"
+           tooltip=""
+           linkedscene=""
+           linkedscene_lookat=""
+           onclick="skin_hotspotstyle_click();"
+           onover="tween(scale,0.55);"
+           onout="tween(scale,0.5);"
+           onloaded="if(linkedscene AND skin_settings.tooltips_hotspots, copy(tooltip,scene[get(linkedscene)].legenda); loadstyle(vr_tooltips); );"
+    />
+
+    <style name="vr_tooltips"
+           onover="tween(scale,0.55);
+                    copy(hotspot[vr_tooltip].url, tooltip);
+                    copy(hotspot[vr_tooltip].ath, ath);
+                    copy(hotspot[vr_tooltip].atv, atv);
+                    set(hotspot[vr_tooltip].visible, true);
+                    tween(hotspot[vr_tooltip].alpha, 1.0, 0.2);"
+           onout="tween(scale,0.5);
+                    tween(hotspot[vr_tooltip].alpha, 0.0, 0.2, default, set(hotspot[vr_tooltip].visible,false); );"
+    />
+
+    <hotspot name="vr_tooltip" keep="true"
+             url="" distorted="true" vr_timeout="750"
+             visible="false" alpha="0" enabled="false" zorder="2"
+             edge="bottom" oy="-2"
+             devices="html5.and.webgl"
+    />
+
+
+</krpano>

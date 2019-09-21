@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Title</title>
+    <link rel="stylesheet" href="/weui/weui.min.css"/>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            font-size: 10px;
+        }
+
+        .h_nav {
+            position: absolute;
+            display: flex;
+            top: 10px;
+            right: 10px;
+        }
+
+        .h_nav .item {
+            border-radius: 4px;
+            text-align: center;
+            padding: 5px 10px 5px 10px;
+            margin: 3px 5px 3px 5px;
+        }
+
+        .key_roaming {
+            background-color: #ff926d;
+        }
+
+        .preview {
+            background-color: #09c161;
+        }
+
+        .go_back {
+            background-color: #fe4145;
+        }
+
+        .item span {
+            color: white;
+            text-align: center;
+        }
+
+        .item span:hover {
+            cursor: pointer;
+        }
+
+        .v_nav {
+            position: absolute;
+            display: block;
+            top: 60px;
+            right: 0;
+        }
+
+        .v_nav .item {
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+        }
+
+        .unfold {
+            background-color: #06c261;
+        }
+
+        .hotspot {
+            background-color: #fdfffe;
+        }
+
+        .hotspot span {
+            color: black;
+        }
+
+        .menu {
+            background-color: #1b8af6;
+        }
+
+        .special_effects {
+            background-color: #ff986b;
+        }
+
+        .sand_table {
+            background-color: #fd4344;
+        }
+
+        .material_library {
+            background-color: #ff986b;
+        }
+
+        .angle_view {
+            background-color: #06c261;
+        }
+
+        .roam {
+            background-color: #ff986b;
+        }
+
+        .scene {
+            background-color: #1b8af6;
+        }
+
+        .setting {
+            background-color: #0cbf63;
+        }
+
+        .arise {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="pano" style="width:100%;height:100%;">
+    <noscript>
+        <table style="width:100%;height:100%;">
+            <tr style="vertical-align:middle;text-align:center;">
+                <td>ERROR:<br><br>Javascript not activated<br><br></td>
+            </tr>
+        </table>
+    </noscript>
+</div>
+<div class="h_nav">
+    <div class="item key_roaming"><span>一键漫游</span></div>
+    <div class="item preview"><span>预览</span></div>
+    <div class="item go_back"><span>返回</span></div>
+</div>
+<div class="v_nav">
+    <div class="item unfold"><span>展开</span></div>
+    <div class="arise">
+        <div class="item hotspot"><span>热点</span></div>
+        <div class="item menu"><span>菜单</span></div>
+        <div class="item special_effects"><span>特效</span></div>
+        <div class="item sand_table"><span>沙盘</span></div>
+        <div class="item material_library"><span>素材库</span></div>
+        <div class="item angle_view"><span>视角</span></div>
+    </div>
+
+
+    <div class="item roam"><span>漫游</span></div>
+    <div class="item scene"><span>场景</span></div>
+    <div class="item setting"><span>设置</span></div>
+</div>
+<script type="text/javascript" src="/jquery/jquery.min.js"></script>
+<script src="viewer/krpano.js"></script>
+<script>
+    $(document).ready(function () {
+        //点击p元素隐藏本身
+        $(".unfold").click(function (e) {
+            if ($(".unfold span")[0].innerHTML === "展开") {
+                $(".unfold span")[0].innerHTML = "收起";
+                $(".arise").slideDown(300);
+            } else {
+                $(".unfold span")[0].innerHTML = "展开";
+                $(".arise").slideUp(300);
+            }
+        })
+
+        embedpano({
+            swf: "viewer/plugins/textfield.swf",
+            xml: "xml/a.xml",
+            target: "pano",
+            html5: "auto",
+            mobilescale: 1.0,
+            passQueryParameters: true,
+            onready: function (krpano) {
+                window.krpano = krpano;
+            }
+        });
+
+        $(".key_roaming").click(function () {
+            add_hotspot();
+        })
+
+        function add_hotspot()
+        {
+            if (krpano)
+            {
+                var h = krpano.get("view.hlookat");
+                var v = krpano.get("view.vlookat");
+                var hs_name = "hs" + ((Date.now() + Math.random()) | 0);	// create unique/randome name
+                krpano.call("addhotspot(" + hs_name + ")");
+                krpano.set("hotspot["+hs_name+"].url", "images/up.png");
+                krpano.set("hotspot["+hs_name+"].ath", h);
+                krpano.set("hotspot["+hs_name+"].atv", v);
+                krpano.set("hotspot["+hs_name+"].distorted", true);
+
+                if ( krpano.get("device.html5") )
+                {
+                    // for HTML5 it's possible to assign JS functions directly to krpano events
+                    krpano.set("hotspot["+hs_name+"].onclick", function(hs)
+                    {
+                        console.log('hotspot "' + hs + '" clicked');
+
+                    }.bind(null, hs_name));
+                }
+                else
+                {
+                    // for Flash the js() action need to be used to call from Flash to JS (this code would work for Flash and HTML5)
+                    krpano.set("hotspot["+hs_name+"].onclick", "js( alert(calc('hotspot \"' + name + '\" clicked')) );");
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
