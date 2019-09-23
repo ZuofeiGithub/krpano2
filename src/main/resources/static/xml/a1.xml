@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<krpano title="我是中国字">
+    <!-- grid preview pano -->
+    <!--<preview type="grid(cube,64,64,512,0xeeeeee,0xffffff,0xff0000);" />-->
+    <include url="vr_tooltips.xml"/>
+    <image>
+        <sphere url="/images/sun.jpg"/>
+    </image>
+    <autorotate enabled="true" waittime="1.5" speed="10.0" horizon="0.0" tofov="0.0"/>
+    <events onnewpano="delayedcall(autoscene,15,nextscene);" onremovepano="stopdelayedcall(autoscene);"/>
+    <action name="nextscene">
+        add(newsceneindex, scene[get(xml.scene)].index, 1);
+        if(newsceneindex LT scene.count, loadscene(get(scene[get(newsceneindex)].name),null, MERGE, BLEND(0.5)););
+        update_button_states();
+    </action>
+    <view hlookat="10"
+          vlookat="90"
+          fov="90"
+          maxpixelzoom="1.0"
+          limitview="fullrange"/>
+    <!--<plugin name="textfield" url.flash="viewer/plugins/textfield.swf"  rootpath="" preload="true" keep="false"/>-->
+    <plugin name="soundinterface" url.flash="viewer/plugins/soundinterface.swf" url.html5="/viewer/plugins/soundinterface.js" rootpath="" preload="true" keep="true"/>
+    <!--<events name="currentpano"-->
+            <!--onnewpano="playsound(bgsnd, 'https://krpano.com/panos/xmas/ding_dong_merrily_on_high.mp3|https://krpano.com/panos/xmas/ding_dong_merrily_on_high.ogg', 0);"-->
+            <!--onremovepano="stopsound(bgsnd);"-->
+    <!--/>-->
+    <scene name="scene_achilleion-hof-unten" title="Achilleion - Garden" onstart="" thumburl="snow.jpg" lat="39.563340"
+           lng="19.904324" heading="0.0">
+
+        <view hlookat="-30" vlookat="20" fovtype="MFOV" fov="120" fovmin="70" fovmax="140" limitview="auto"/>
+        <area mode="align" align="lefttop"  x="0"  y="60"  width="100%" height="100%"/>
+        <preview url="panos/achilleion-hof-unten.tiles/snow.jpg"/>
+
+        <image>
+            <sphere url="images/snow.jpg"/>
+        </image>
+        <!-- 文本框的属性 textfield.swf是文字插件，首先要让文本框的图层不可显示 -->
+        <layer name="hotspot_pos_info"
+               url="viewer/plugins/textfield.swf"
+               visible="false"
+               html=""
+               css="font-family:Courier;"
+               padding="8"
+               align="lefttop" x="10" y="10"
+               width="200"
+        />
+
+        <!-- 文本框的显示内容与显示 -->
+        <action name="print_hotspot_pos"><![CDATA[
+	copy(print_ath, ath);
+	copy(print_atv, atv);
+	roundval(print_ath, 3);
+	roundval(print_atv, 3);
+	calc(layer[hotspot_pos_info].html, '名称：' + name + '[br]水平视角：' + print_ath + '[br]垂直视角: ' + print_atv);
+	set(layer[hotspot_pos_info].visible,true);
+	set(layer[closetext].visible,true);
+	set(layer[closetext].alpha,1.0);
+	tween(layer[hotspot_pos_info].width,0,0.5,easeOutQuint,tween(layer[hotspot_pos_info].width,200));
+]]></action>
+
+        <!-- 文本框的关闭按钮 alpha为透明度，此处设置为0，则关闭按钮透明不可见了-->
+        <layer name="closetext" keep="true" url="close.png" x="168" y="42" width="32" height="32" visible="false" onclick="closetext(); "/>
+        <action name="closetext"> set(layer[hotspot_pos_info].visible,false); set(layer[closetext].alpha,0.0);</action>
+
+        <!-- 热点-->
+        <!--<hotspot name="mark1" url="w.png" scale="0.7" ath="169.068" atv="6.994" zoom="true" distorted="true"-->
+                 <!--onclick="print_hotspot_pos();"/>-->
+        <!--<hotspot name="mark2" url="w.png" scale="0.7" ath="-91.392" atv="10.601" zoom="true" distorted="true"-->
+                 <!--onclick="print_hotspot_pos();"/>-->
+        <!--<hotspot name="spot1" style="skin_hotspotstyle_vr" ath="0.0" atv="0.0" linkedscene="scene_achilleion-hof-unten"-->
+                 <!--onclick="looktohotspot(get(name),65);pausesoundtoggle(bgsnd); switch(crop, 0|0|50|50, 0|50|50|50);loadscene('scene_achilleion-hof-unten')"/>-->
+    </scene>
+    <!--<hotspot name="spot1" style="skin_hotspotstyle_vr" ath="0.0" atv="0.0" linkedscene="scene_achilleion-hof-unten"-->
+             <!--onclick="looktohotspot(get(name),65);pausesoundtoggle(bgsnd); switch(crop, 0|0|50|50, 0|50|50|50);loadscene('scene_achilleion-hof-unten')"/>-->
+    <area mode="align" align="lefttop" x="0" y="0" width="100%" height="100%"/>
+
+    <!--<view hlookat="0" vlookat="0" fovtype="MFOV" fov="45" fovmin="20" fovmax="120" />-->
+    <!--<skin_settings plugin_types="plugin_base, plugin_product, plugin_hotspot, plugin_navigation" />-->
+    <!--<plugin name="flying" url="a.js" />-->
+    <!--<plugin name="editui" plugintype="plugin_ui" keep="true" url="%SWFPATH%/view.js" js="/tool.js"/>-->
+    <!--<plugin name="flyaaaaa" plugintype="plugin_base" keep="true" js="b.js" align="center" edge="center" nickname="aaa"   />-->
+    <!--<plugin name="b8peqwbv" plugintype="plugin_base" keep="true" js="c.js" align="center" edge="center" nickname="VR" />-->
+    <!--<plugin name="testbbb" plugintype="plugin_base" keep="true" js="bbb.js" align="center" edge="center" nickname="bbb" />-->
+    <!--&lt;!&ndash; view/fov settings &ndash;&gt;-->
+    <!--<view hlookat="0" vlookat="0" fovtype="VFOV" fov="90" fovmin="30" fovmax="150" />-->
+</krpano>

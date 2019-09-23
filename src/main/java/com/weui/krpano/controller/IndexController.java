@@ -15,4 +15,9 @@ public class IndexController {
     public String krapno(){
         return "krapno.html";
     }
+
+    @GetMapping("/upload")
+    public String upload(){
+        return "upload.html";
+    }
 }
