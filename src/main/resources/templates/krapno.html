@@ -134,8 +134,6 @@
         <div class="item material_library"><span>素材库</span></div>
         <div class="item angle_view"><span>视角</span></div>
     </div>
-
-
     <div class="item roam"><span>漫游</span></div>
     <div class="item scene"><span>场景</span></div>
     <div class="item setting"><span>设置</span></div>
@@ -144,25 +142,82 @@
 <script src="custom/require.js"></script>
 <script src="viewer/krpano.js"></script>
 <script>
-    // global krpano interface (will be set in the onready callback)
     var krpano = null;
-
-    // embed the krpano viewer into the 'pano' div element
-    embedpano({
-        swf : "/viewer/krpano.swf", 		// path to flash viewer (use null if no flash fallback will be requiered)
-        id : "krpanoSWFObject",
-        xml : "/xml/a1.xml",
-        target : "pano",
-        consolelog : true,					// trace krpano messages also to the browser console
-        passQueryParameters : true, 		// pass query parameters of the url to krpano
-        onready : krpano_onready_callback
+    $(document).ready(function () {
+        //点击p元素隐藏本身
+        $(".unfold").click(function (e) {
+            if ($(".unfold span")[0].innerHTML === "展开") {
+                $(".unfold span")[0].innerHTML = "收起";
+                $(".arise").slideDown(300);
+            } else {
+                $(".unfold span")[0].innerHTML = "展开";
+                $(".arise").slideUp(300);
+            }
+        })
+        embedpano({
+            swf: "viewer/plugins/textfield.swf",
+            xml: "xml/a1.xml",
+            target: "pano",
+            html5: "auto",
+            mobilescale: 1.0,
+            passQueryParameters: true,
+            onready: function (krpano) {
+                window.krpano = krpano;
+            }
+        });
+        loadpano("/xml/snow.xml")
+        $(".key_roaming").click(function () {
+            add_hotspot();
+        })
+        function add_hotspot()
+        {
+            if (krpano)
+            {
+                var h = krpano.get("view.hlookat");
+                var v = krpano.get("view.vlookat");
+                var hs_name = "hs" + ((Date.now() + Math.random()) | 0);	// create unique/randome name
+                krpano.call("addhotspot(" + hs_name + ")");
+                krpano.set("hotspot["+hs_name+"].url", "images/up.png");
+                krpano.set("hotspot["+hs_name+"].ath", h);
+                krpano.set("hotspot["+hs_name+"].atv", v);
+                krpano.set("hotspot["+hs_name+"].distorted", true);
+                if ( krpano.get("device.html5") )
+                {
+                    // for HTML5 it's possible to assign JS functions directly to krpano events
+                    krpano.set("hotspot["+hs_name+"].onclick", function(hs)
+                    {
+                        console.log('hotspot "' + hs + '" clicked');
+                    }.bind(null, hs_name));
+                }
+                else
+                {
+                    // for Flash the js() action need to be used to call from Flash to JS (this code would work for Flash and HTML5)
+                    krpano.set("hotspot["+hs_name+"].onclick", "js( alert(calc('hotspot \"' + name + '\" clicked')) );");
+                }
+            }
+        }
     });
+    // // global krpano interface (will be set in the onready callback)
+    // var krpano = null;
+    //
+    // // embed the krpano viewer into the 'pano' div element
+    // embedpano({
+    //     swf : "/viewer/krpano.swf", 		// path to flash viewer (use null if no flash fallback will be requiered)
+    //     id : "krpanoSWFObject",
+    //     xml : "/xml/a1.xml",
+    //     target : "pano",
+    //     consolelog : true,					// trace krpano messages also to the browser console
+    //     passQueryParameters : true, 		// pass query parameters of the url to krpano
+    //     onready : krpano_onready_callback
+    // });
+    //
+    // // callback function that will be called when krpano is embedded and ready for using
+    // function krpano_onready_callback(krpano_interface)
+    // {
+    //     krpano = krpano_interface;
+    // }
+    //
 
-    // callback function that will be called when krpano is embedded and ready for using
-    function krpano_onready_callback(krpano_interface)
-    {
-        krpano = krpano_interface;
-    }
 
 
     // examples (called by the button onclick events)

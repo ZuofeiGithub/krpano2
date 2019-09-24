@@ -15,6 +15,6 @@ public class ApiController {
 
     @GetMapping("uploadImage")
     public void uploadImage(){
-        KrpanoUtil.getInstance().createKrapano("1.19").createPreView(null,"snow.jpg",null,null).generateXml().docToString();
+        KrpanoUtil.getInstance().createKrapano("1.19").createSphereImage("/images/snow.jpg").generateXml().docToString();
     }
 }
