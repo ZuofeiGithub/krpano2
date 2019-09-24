@@ -204,19 +204,23 @@ public class KrpanoUtil {
         return instance;
     }
 
+
     /**
-     * 创建热点
-     * @param name
-     * @param type
-     * @param url
-     * @param alturl
-     * @param keep
-     * @param renderer
-     * @param devices
-     * @param visible
+     *
+     * @param name 热点名称
+     * @param type 热点类型 image,text(textfield)
+     * @param url 热点图像路径
+     * @param alturl html5状态下显示
+     * @param keep 是否在下一个场景跳转后保持显示
+     * @param renderer 渲染方式 webgl css3d
+     * @param devices 支持设备类型
+     * @param visible 是否可见
+     * @param enabled 设置热点是否接受鼠标事件
+     * @param handcursor 设置是否鼠标移动到上面显示小手
+     * @param zoom 是否场景缩放时，热点跟随缩放
      * @return
      */
-    public KrpanoUtil createHotpot(String name,String type,String url,String alturl,Boolean keep,String renderer,String devices,boolean visible,boolean enabled,boolean handcursor){
+    public KrpanoUtil createHotpot(String name,String type,String url,String alturl,Boolean keep,String renderer,String devices,boolean visible,boolean enabled,boolean handcursor,boolean zoom){
         Element hotspot = document.createElement("hotspot");
         if(!ObjectUtils.isEmpty(name)){
             hotspot.setAttribute("name",name);
@@ -244,6 +248,9 @@ public class KrpanoUtil {
         }
         if(!ObjectUtils.isEmpty(handcursor)){
             hotspot.setAttribute("handcursor",String.valueOf(handcursor));
+        }
+        if(!ObjectUtils.isEmpty(zoom)){
+            hotspot.setAttribute("zoom",String.valueOf(zoom));
         }
         return this;
     }
