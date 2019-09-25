@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    @GetMapping("/krapno")
-    public String krapno(){
-        return "krapno.html";
+    @GetMapping("/krpano")
+    public String krpano(){
+        return "krpano.html";
     }
 
     @GetMapping("/upload")
     public String upload(){
         return "upload.html";
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "home.html";
     }
 }

@@ -30,11 +30,16 @@ public class KrpanoUtil {
     private static DocumentBuilder documentBuilder;
     private static Document document;
     Element krpano = null;
+    Element scene = null;
     String imageName;
 
     private KrpanoUtil() {
     }
 
+    /**
+     * 获取实例句柄并初始化document
+     * @return
+     */
     public static KrpanoUtil getInstance() {
         factory = DocumentBuilderFactory.newInstance();
         try {
@@ -52,29 +57,75 @@ public class KrpanoUtil {
 
 
     /**
-     * 创建根布局
+     * 创建krpano根布局
      *
-     * @param version
+     * @param version 版本
+     * @param startAction 启动时的动作
      * @return
      */
-    public KrpanoUtil createKrapano(String version) {
+    public KrpanoUtil createKrpano(String version, String startAction) {
         if (!ObjectUtils.isEmpty(document)) {
             krpano = document.createElement("krpano");
             if (!ObjectUtils.isEmpty(version)) {
                 krpano.setAttribute("version", version);
             }
+            if(!ObjectUtils.isEmpty(startAction)){
+                krpano.setAttribute("onstart",startAction);
+            }
         }
         return instance;
     }
 
+
     /**
-     * @param type       全景图的类型(SPHERE,CYLINDER,CUBESTRIP,grid(type,xsteps,ysteps,res,linecol,bgcol,pntcol))
-     * @param imageUrl   全景图路径
-     * @param striporder 定义图像顺序
-     * @param details    //图像细节质量调整，越大越清晰
+     * 添加场景
+     * @param name 场景名字
+     * @param startAction 场景开始动作
+     * @param autoLoad 是否自动加载场景
+     * @param content 场景未能解析的元素，当作文本字符串
      * @return
      */
-    public KrpanoUtil createPreView(String type, String imageUrl, String striporder, Integer details) {
+    public KrpanoUtil addScene(String name, String startAction, boolean autoLoad, String content){
+        if(!ObjectUtils.isEmpty(document)){
+            scene = document.createElement("scene");
+            if(!ObjectUtils.isEmpty(name)){
+                scene.setAttribute("name",name);
+            }
+            if(!ObjectUtils.isEmpty(startAction)){
+                scene.setAttribute("onstart",startAction);
+            }
+            if(!ObjectUtils.isEmpty(autoLoad)){
+                scene.setAttribute("autoload",String.valueOf(autoLoad));
+            }
+            if(!ObjectUtils.isEmpty(content)){
+                scene.setAttribute("content",content);
+            }
+            krpano.appendChild(scene);
+        }
+
+        return instance;
+    }
+
+
+
+    public KrpanoUtil addRootPreview(String type, String imageUrl, String striporder, Integer details) {
+        createPreview(type, imageUrl, striporder, details, krpano);
+        return instance;
+    }
+
+    public KrpanoUtil addScenePreview(String type, String imageUrl, String striporder, Integer details) {
+        createPreview(type, imageUrl, striporder, details, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+
+
+    private void createPreview(String type, String imageUrl, String striporder, Integer details, Element e) {
         Element preview = null;
         if (!ObjectUtils.isEmpty(document)) {
             preview = document.createElement("preview");
@@ -82,8 +133,8 @@ public class KrpanoUtil {
                 preview.setAttribute("type", type);
             }
             if (!ObjectUtils.isEmpty(imageUrl)) {
-                imageName = imageUrl;
-                preview.setAttribute("url", "/images/" + imageUrl);
+                imageName = imageUrl.substring(imageUrl.lastIndexOf("/images/")+7);
+                preview.setAttribute("url",  imageUrl);
             }
             if (!ObjectUtils.isEmpty(striporder)) {
                 preview.setAttribute("striporder", striporder);
@@ -92,8 +143,17 @@ public class KrpanoUtil {
                 preview.setAttribute("details", String.valueOf(details));
             }
         }
-        krpano.appendChild(preview);
-        return instance;
+        if(!ObjectUtils.isEmpty(e)) {
+            e.appendChild(preview);
+        }
+    }
+
+    private void addRootGridPreview(){
+        addRootPreview("grid(CUBE,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);",null,null,null);
+    }
+
+    private void addSceneGridPreview(){
+        addScenePreview("grid(CUBE,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);",null,null,null);
     }
 
     /**
@@ -102,7 +162,22 @@ public class KrpanoUtil {
      * @param imagePath 图片路径
      * @return
      */
-    public KrpanoUtil createSphereImage(String imagePath) {
+    public KrpanoUtil addRootSphereImage(String imagePath) {
+        addSphereImage(imagePath, krpano);
+        return instance;
+    }
+
+    public KrpanoUtil addSceneSphereImage(String imagePath) {
+        addSphereImage(imagePath, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+    private void addSphereImage(String imagePath, Element e) {
         Element image = null;
         if (!ObjectUtils.isEmpty(document)) {
             image = document.createElement("image");
@@ -110,11 +185,10 @@ public class KrpanoUtil {
             Element sphere = document.createElement("sphere");
             sphere.setAttribute("url", imagePath);
             System.out.println(imagePath);
-            imageName =imagePath.substring(imagePath.lastIndexOf("/images/")+7);
+            imageName = imagePath.substring(imagePath.lastIndexOf("/images/") + 7);
             image.appendChild(sphere);
         }
-        krpano.appendChild(image);
-        return this;
+        e.appendChild(image);
     }
 
     /**
@@ -129,7 +203,22 @@ public class KrpanoUtil {
      * @param fisheye 鱼眼视角设置0.0至1.0之间
      * @return
      */
-    public KrpanoUtil createView(Double hlookat, Double vlookat,Double fov,Double fovmin,Double fovmax,Double mfovratio,Double distortion,Double fisheye) {
+    public KrpanoUtil addRootView(Double hlookat, Double vlookat, Double fov, Double fovmin, Double fovmax, Double mfovratio, Double distortion, Double fisheye) {
+        addView(hlookat, vlookat, fov, fovmin, fovmax, mfovratio, distortion, fisheye, krpano);
+        return this;
+    }
+
+    public KrpanoUtil addSceneView(Double hlookat, Double vlookat, Double fov, Double fovmin, Double fovmax, Double mfovratio, Double distortion, Double fisheye) {
+        addView(hlookat, vlookat, fov, fovmin, fovmax, mfovratio, distortion, fisheye, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+    private void addView(Double hlookat, Double vlookat, Double fov, Double fovmin, Double fovmax, Double mfovratio, Double distortion, Double fisheye, Element e) {
         Element view = null;
         if (!ObjectUtils.isEmpty(document)) {
             view = document.createElement("view");
@@ -137,32 +226,27 @@ public class KrpanoUtil {
                 view.setAttribute("hlookat", String.valueOf(hlookat));
             if (!ObjectUtils.isEmpty(vlookat))
                 view.setAttribute("vlookat", String.valueOf(vlookat));
-            if(!ObjectUtils.isEmpty(fov)){
-                view.setAttribute("fov",String.valueOf(fov));
+            if (!ObjectUtils.isEmpty(fov)) {
+                view.setAttribute("fov", String.valueOf(fov));
             }
-            if(!ObjectUtils.isEmpty(fovmin)){
-                view.setAttribute("fovmin",String.valueOf(fovmin));
+            if (!ObjectUtils.isEmpty(fovmin)) {
+                view.setAttribute("fovmin", String.valueOf(fovmin));
             }
-            if(!ObjectUtils.isEmpty(fovmax)){
-                view.setAttribute("fovmax",String.valueOf(fovmax));
+            if (!ObjectUtils.isEmpty(fovmax)) {
+                view.setAttribute("fovmax", String.valueOf(fovmax));
             }
-            if(!ObjectUtils.isEmpty(mfovratio)){
-                view.setAttribute("mfovration",String.valueOf(mfovratio));
+            if (!ObjectUtils.isEmpty(mfovratio)) {
+                view.setAttribute("mfovration", String.valueOf(mfovratio));
             }
-            if(!ObjectUtils.isEmpty(distortion)){
-                view.setAttribute("distortion",String.valueOf(distortion));
+            if (!ObjectUtils.isEmpty(distortion)) {
+                view.setAttribute("distortion", String.valueOf(distortion));
             }
-            if(!ObjectUtils.isEmpty(fisheye)){
-                view.setAttribute("fisheye",String.valueOf(fisheye));
+            if (!ObjectUtils.isEmpty(fisheye)) {
+                view.setAttribute("fisheye", String.valueOf(fisheye));
             }
         }
-        krpano.appendChild(view);
-        return this;
+        e.appendChild(view);
     }
-
-
-
-
 
 
     /**
@@ -179,7 +263,22 @@ public class KrpanoUtil {
      * @param width   宽度
      * @return
      */
-    public KrpanoUtil createTextView(String name, Boolean visible, String text, String css, Integer padding, String align, Integer x, Integer y, Integer width) {
+    public KrpanoUtil addRootTextView(String name, Boolean visible, String text, String css, Integer padding, String align, Integer x, Integer y, Integer width) {
+        addTextView(name, visible, text, css, padding, align, x, y, width, krpano);
+        return instance;
+    }
+
+    public KrpanoUtil addSceneTextView(String name, Boolean visible, String text, String css, Integer padding, String align, Integer x, Integer y, Integer width) {
+        addTextView(name, visible, text, css, padding, align, x, y, width, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+    private void addTextView(String name, Boolean visible, String text, String css, Integer padding, String align, Integer x, Integer y, Integer width, Element e) {
         Element textView = document.createElement("layer");
         if (!ObjectUtils.isEmpty(name))
             textView.setAttribute("name", name);
@@ -200,8 +299,7 @@ public class KrpanoUtil {
             textView.setAttribute("y", String.valueOf(y));
         if (!ObjectUtils.isEmpty(width))
             textView.setAttribute("width", String.valueOf(width));
-        krpano.appendChild(textView);
-        return instance;
+        e.appendChild(textView);
     }
 
 
@@ -211,6 +309,10 @@ public class KrpanoUtil {
      * @param type 热点类型 image,text(textfield)
      * @param url 热点图像路径
      * @param alturl html5状态下显示
+     * @param width 热点宽度
+     * @param height 热点高度
+     * @param scale 热点缩放
+     * @param alpha 透明度(0.0-1.0)
      * @param keep 是否在下一个场景跳转后保持显示
      * @param renderer 渲染方式 webgl css3d
      * @param devices 支持设备类型
@@ -218,50 +320,140 @@ public class KrpanoUtil {
      * @param enabled 设置热点是否接受鼠标事件
      * @param handcursor 设置是否鼠标移动到上面显示小手
      * @param zoom 是否场景缩放时，热点跟随缩放
+     * @param clickAction 热点被点击时执行的动作
      * @return
      */
-    public KrpanoUtil createHotpot(String name,String type,String url,String alturl,Boolean keep,String renderer,String devices,boolean visible,boolean enabled,boolean handcursor,boolean zoom){
+    public KrpanoUtil addRootHotpot(String name, String type, String url, String alturl, Integer width, Integer height, Double scale, Double alpha, Boolean keep, String renderer, String devices, boolean visible, boolean enabled, boolean handcursor, boolean zoom, String clickAction){
+        addHotpot(name, type, url, alturl, width, height, scale, alpha, keep, renderer, devices, visible, enabled, handcursor, zoom, clickAction, krpano);
+        return instance;
+    }
+
+    public KrpanoUtil addSceneHotpot(String name, String type, String url, String alturl, Integer width, Integer height, Double scale, Double alpha, Boolean keep, String renderer, String devices, boolean visible, boolean enabled, boolean handcursor, boolean zoom, String clickAction){
+        addHotpot(name, type, url, alturl, width, height, scale, alpha, keep, renderer, devices, visible, enabled, handcursor, zoom, clickAction, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+    private void addHotpot(String name, String type, String url, String alturl, Integer width, Integer height, Double scale, Double alpha, Boolean keep, String renderer, String devices, boolean visible, boolean enabled, boolean handcursor, boolean zoom, String clickAction, Element e) {
         Element hotspot = document.createElement("hotspot");
-        if(!ObjectUtils.isEmpty(name)){
-            hotspot.setAttribute("name",name);
+        if (!ObjectUtils.isEmpty(name)) {
+            hotspot.setAttribute("name", name);
         }
-        if(!ObjectUtils.isEmpty(type)){
-            hotspot.setAttribute("url",url);
+        if (!ObjectUtils.isEmpty(type)) {
+            hotspot.setAttribute("url", url);
         }
-        if(!ObjectUtils.isEmpty(alturl)){
-            hotspot.setAttribute("alturl",alturl);
+        if (!ObjectUtils.isEmpty(alturl)) {
+            hotspot.setAttribute("alturl", alturl);
         }
-        if(!ObjectUtils.isEmpty(keep)){
-            hotspot.setAttribute("keep",alturl);
+        if (!ObjectUtils.isEmpty(width)) {
+            hotspot.setAttribute("width", String.valueOf(width));
         }
-        if(!ObjectUtils.isEmpty(renderer)){
-            hotspot.setAttribute("renderer",renderer);
+        if (!ObjectUtils.isEmpty(height)) {
+            hotspot.setAttribute("height", String.valueOf(height));
         }
-        if(!ObjectUtils.isEmpty(devices)){
-            hotspot.setAttribute("devices",devices);
+        if (!ObjectUtils.isEmpty(scale)) {
+            hotspot.setAttribute("scale", String.valueOf(scale));
         }
-        if (!ObjectUtils.isEmpty(visible)){
-            hotspot.setAttribute("visible",String.valueOf(visible));
+        if (!ObjectUtils.isEmpty(alpha)) {
+            hotspot.setAttribute("alpha", String.valueOf(alpha));
         }
-        if(!ObjectUtils.isEmpty(enabled)){
-            hotspot.setAttribute("enabled",String.valueOf(enabled));
+        if (!ObjectUtils.isEmpty(keep)) {
+            hotspot.setAttribute("keep", alturl);
         }
-        if(!ObjectUtils.isEmpty(handcursor)){
-            hotspot.setAttribute("handcursor",String.valueOf(handcursor));
+        if (!ObjectUtils.isEmpty(renderer)) {
+            hotspot.setAttribute("renderer", renderer);
         }
-        if(!ObjectUtils.isEmpty(zoom)){
-            hotspot.setAttribute("zoom",String.valueOf(zoom));
+        if (!ObjectUtils.isEmpty(devices)) {
+            hotspot.setAttribute("devices", devices);
         }
-        return this;
+        if (!ObjectUtils.isEmpty(visible)) {
+            hotspot.setAttribute("visible", String.valueOf(visible));
+        }
+        if (!ObjectUtils.isEmpty(enabled)) {
+            hotspot.setAttribute("enabled", String.valueOf(enabled));
+        }
+        if (!ObjectUtils.isEmpty(handcursor)) {
+            hotspot.setAttribute("handcursor", String.valueOf(handcursor));
+        }
+        if (!ObjectUtils.isEmpty(zoom)) {
+            hotspot.setAttribute("zoom", String.valueOf(zoom));
+        }
+        if (!ObjectUtils.isEmpty(clickAction)) {
+            hotspot.setAttribute("onclick", clickAction);
+        }
+        e.appendChild(hotspot);
+    }
+
+    /**
+     * 创建动作
+     * @param name 动作的名字 调用动作时调用方式 name(arg1,arg2,arg3,...)
+     * @param autoRun 是否自动运行
+     * @param scope 作用域 global,local,parent
+     * @param secure 为true时行动将由Javascript调用
+     * @param protect 为true时变量将无法访问
+     * @param type 是否支持Javascript接口
+     * @param args 参数
+     * @param code action代码或javascript代码
+     * @return
+     */
+    public KrpanoUtil addRootAction(String name, boolean autoRun, String scope, boolean secure, boolean protect, String type, String args, String code){
+        addAction(name, autoRun, scope, secure, protect, type, args, code, krpano);
+        return instance;
+    }
+
+    public KrpanoUtil addSceneAction(String name, boolean autoRun, String scope, boolean secure, boolean protect, String type, String args, String code){
+        addAction(name, autoRun, scope, secure, protect, type, args, code, scene);
+        if(!ObjectUtils.isEmpty(scene)) {
+            krpano.appendChild(scene);
+        }else{
+            throw new RuntimeException("您还没有创建场景");
+        }
+        return instance;
+    }
+
+    private void addAction(String name, boolean autoRun, String scope, boolean secure, boolean protect, String type, String args, String code, Element e) {
+        Element action = document.createElement("action");
+        if (!ObjectUtils.isEmpty(name)) {
+            action.setAttribute("name", name);
+        }
+        if (!ObjectUtils.isEmpty(autoRun)) {
+            action.setAttribute("autorun", String.valueOf(autoRun));
+        }
+        if (!ObjectUtils.isEmpty(scope)) {
+            action.setAttribute("scope", scope);
+        }
+        if (!ObjectUtils.isEmpty(secure)) {
+            action.setAttribute("secure", String.valueOf(secure));
+        }
+        if (!ObjectUtils.isEmpty(protect)) {
+            action.setAttribute("protect", String.valueOf(protect));
+        }
+        if (!ObjectUtils.isEmpty(type)) {
+            if (type.equals("Javascript")) {
+                action.setTextContent("<![CDATA[" + code + "]]>");
+            } else {
+                action.setTextContent(code);
+            }
+        }
+        if (!ObjectUtils.isEmpty(args)) {
+            action.setAttribute("args", args);
+        }
+        e.appendChild(action);
     }
 
 
-
+    public KrpanoUtil build(){
+        document.appendChild(krpano);
+        return instance;
+    }
     /**
      * 最后会根据图片名生成xml
      */
     public KrpanoUtil generateXml() {
-        document.appendChild(krpano);
         try {
             // 创建TransformerFactory对象
             TransformerFactory tff = TransformerFactory.newInstance();

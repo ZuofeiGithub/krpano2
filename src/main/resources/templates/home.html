@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/mui/mui.min.css">
+    <link rel="stylesheet" href="/weui/weui.min.css"/>
+    <link rel="stylesheet" href="/jquery/jquery-weui.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        html,body{height: 100%;}
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #searchBar{
+            position: relative;
+            background-color:rgba(0,0,0,0);
+        }
+        .weui-search-bar:after{
+            border: none;
+        }
+        .weui-tabbar{
+            background-color: #393c43;
+        }
+        body{
+            background-color: #2b2e35;
+        }
+        .slide{
+            height: 150px;
+        }
+        .title{
+            top: 0;
+            position: absolute;
+            width: 100%;
+            z-index: 2;
+            display: flex;
+        }
+        .search{
+            position: relative;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <div class="weui-flex slide">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-3.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-1.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-2.jpg" alt=""></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <div class="title">
+                <div class="address"><i>地址</i></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select1">
+                        <option selected value="1">微信号</option>
+                        <option value="2">QQ号</option>
+                        <option value="3">Email</option>
+                    </select>
+                </div>
+                <div class="search">
+                    <div class="weui-search-bar " id="searchBar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                            </div>
+                            <label class="weui-search-bar__label" id="searchText">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+            <h1>留言</h1>
+        </div>
+        <div id="tab3" class="weui-tab__bd-item">
+            <h1>联系我</h1>
+        </div>
+        <div id="tab4" class="weui-tab__bd-item">
+            <h1>用户中心</h1>
+        </div>
+    </div>
+
+    <div class="weui-tabbar">
+        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+            <!--<span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>-->
+            <div class="weui-tabbar__icon">
+                <i class="fa fa-home fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label" >主页</p>
+        </a>
+        <a href="#tab2" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+               <i class="fa fa-commenting-o fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label">留言</p>
+        </a>
+        <a href="#tab3" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <i class="fa fa-phone fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label">联系我</p>
+        </a>
+        <a href="#tab4" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <i class="fa fa-user fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label">用户中心</p>
+        </a>
+    </div>
+</div>
+
+<script src="/mui/mui.min.js"></script>
+<script src="/jquery/jquery.min.js"></script>
+<script src="/jquery/jquery-weui.min.js"></script>
+<script src="/weui/swiper.min.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container',
+        {
+            speed: 2000,//播放速度
+            autoHeight: true,
+            loop: true,//是否循环播放
+            setWrapperSize: true,
+            autoplay:
+                {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+            pagination: '.swiper-pagination',//分页
+            effect: 'slide',//动画效果
+        }
+    );
+</script>
+</body>
+</html>
