@@ -25,4 +25,9 @@ public class IndexController {
     public String home(){
         return "home.html";
     }
+
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "welcome.html";
+    }
 }

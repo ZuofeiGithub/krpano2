@@ -3,60 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <title>Title</title>
+    <title>主页</title>
     <link rel="stylesheet" href="/mui/mui.min.css">
     <link rel="stylesheet" href="/weui/weui.min.css"/>
     <link rel="stylesheet" href="/jquery/jquery-weui.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        html,body{height: 100%;}
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        #searchBar{
-            position: relative;
-            background-color:rgba(0,0,0,0);
-        }
-        .weui-search-bar:after{
-            border: none;
-        }
-        .weui-tabbar{
-            background-color: #393c43;
-        }
-        body{
-            background-color: #2b2e35;
-        }
-        .slide{
-            height: 150px;
-        }
-        .title{
-            top: 0;
-            position: absolute;
-            width: 100%;
-            z-index: 2;
-            display: flex;
-        }
-        .search{
-            position: relative;
-            width: 100%;
-        }
-    </style>
+    <link href="/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/custom/home.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="weui-tab">
+
+    <!---底部导航栏页面start-->
     <div class="weui-tab__bd">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+
+            <!--轮播图start-->
             <div class="weui-flex slide">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-3.jpg" alt=""></div>
-                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-1.jpg" alt=""></div>
-                        <div class="swiper-slide"><img src="http://jqweui.com/dist/demos/images/swiper-2.jpg" alt=""></div>
+                        <div class="swiper-slide"><img
+                                src="https://editor.ajxqj.com/upload/zaigou/banner/20190612/8df597c5816c4523abbc5c86b6163dd8.jpg"
+                                alt=""></div>
+                        <div class="swiper-slide"><img
+                                src="https://editor.ajxqj.com/upload/zaigou/banner/20190612/5b47c3da2e0a4c6bad7b19723abe108a.jpg"
+                                alt=""></div>
+                        <div class="swiper-slide"><img
+                                src="https://editor.ajxqj.com/upload/zaigou/banner/20190612/6f11ac792c064c37bb2b817a656cab4f.jpg"
+                                alt=""></div>
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
+            <!--轮播图end-->
+
+            <!--搜索框start-->
             <div class="title">
                 <div class="address"><i>地址</i></div>
                 <div class="weui-cell__bd">
@@ -71,7 +52,8 @@
                         <form class="weui-search-bar__form">
                             <div class="weui-search-bar__box">
                                 <i class="weui-icon-search"></i>
-                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索"
+                                       required="">
                                 <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
                             </div>
                             <label class="weui-search-bar__label" id="searchText">
@@ -83,34 +65,135 @@
                     </div>
                 </div>
             </div>
+            <!--搜索框end-->
 
+            <!--企业导航start-->
+            <div class="weui-flex" style="width: 100%">
+                <div class="weui-flex__item">
+                    <a href="https://www.ajxqj.com/m/#/category?id=1&city=%E5%8D%97%E9%80%9A%E5%B8%82" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="https://editor.ajxqj.com/upload/zaigou/companytype/icon/20190529/13793f5a93af48e49840252a34f637bb.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">装企</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="weui-flex__item">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="https://editor.ajxqj.com/upload/zaigou/companytype/icon/20190529/6029ce67f2e246c38ea6aeabc6059849.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">中介</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="weui-flex__item">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="https://editor.ajxqj.com/upload/zaigou/companytype/icon/20190529/1af19140c6e54256a80916769287a545.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">展厅</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="weui-flex" style="width: 100%">
+                <div class="weui-flex__item">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="https://editor.ajxqj.com/upload/zaigou/companytype/icon/20190529/709a01ff562340819e9e881a5c5984c5.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">酒店</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="weui-flex__item">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="https://editor.ajxqj.com/upload/zaigou/companytype/icon/20190529/10261f7583974b5cad5a22b16be83eb4.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">娱乐场所</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="weui-flex__item">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="/images/map.png">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">地图</h4>
+                            <p class="weui-media-box__desc"><div style="display: flex;font-size: 10px;align-items: center;text-align: left">SUITE<div class="right_arrows"></div></div></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!--企业导航end-->
         </div>
         <div id="tab2" class="weui-tab__bd-item">
-            <h1>留言</h1>
+            <h1>页面二</h1>
         </div>
         <div id="tab3" class="weui-tab__bd-item">
-            <h1>联系我</h1>
+            <h1>页面三</h1>
         </div>
-        <div id="tab4" class="weui-tab__bd-item">
-            <h1>用户中心</h1>
-        </div>
-    </div>
 
+
+        <!--用户登陆start-->
+        <div id="tab4" class="weui-tab__bd-item">
+            <div class="logo">
+                <img src="https://editor.ajxqj.com/krpano/images/logo.png">
+            </div>
+            <div class="name"><span>用户登陆</span></div>
+            <form>
+                <div class="input-wrap"><i class="fa fa-mobile fa-2x"></i><input type="tel" /></div>
+                <div class="input-wrap"><i class="fa fa-lock fa-2x"></i><input type="password" /></div>
+                <div class="vcode">
+                    <i class="fa fa-unlock fa-2x"></i><input  />
+                    <div class="code"><img src="https://editor.ajxqj.com/common/vcode?_t=1569479886701"></div>
+                </div>
+            </form>
+            <div class="forget_password"><a onclick="forgetPassword()">忘记密码？</a></div>
+            <div class="login-btn"><a class="weui-btn weui-btn_primary">登陆</a></div>
+            <div class="register"><a onclick="registerUser()">没有账号, 免费注册 →</a></div>
+        </div>
+        <!--用户登陆end-->
+
+        <!--忘记密码start-->
+        <div id="tab5" class="weui-tab__bd-item">
+            <h1>忘记密码</h1>
+        </div>
+        <div id="tab6" class="weui-tab__bd-item">
+            <h1>注册用户</h1>
+        </div>
+
+    </div>
+    <!---底部导航栏页面start-->
+
+    <!--底部导航栏start-->
     <div class="weui-tabbar">
-        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
-            <!--<span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>-->
+        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on home">
             <div class="weui-tabbar__icon">
                 <i class="fa fa-home fa-5x"></i>
             </div>
-            <p class="weui-tabbar__label" >主页</p>
+            <p class="weui-tabbar__label">主页</p>
         </a>
-        <a href="#tab2" class="weui-tabbar__item">
+        <a href="#tab2" class="weui-tabbar__item message">
             <div class="weui-tabbar__icon">
-               <i class="fa fa-commenting-o fa-5x"></i>
+                <i class="fa fa-commenting-o fa-5x"></i>
             </div>
             <p class="weui-tabbar__label">留言</p>
         </a>
-        <a href="#tab3" class="weui-tabbar__item">
+        <a href="#tab3" class="weui-tabbar__item contact_me">
             <div class="weui-tabbar__icon">
                 <i class="fa fa-phone fa-5x"></i>
             </div>
@@ -122,15 +205,47 @@
             </div>
             <p class="weui-tabbar__label">用户中心</p>
         </a>
+        <a href="#tab5" class="weui-tabbar__item forget" style="display: none">
+            <div class="weui-tabbar__icon">
+                <i class="fa fa-user fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label">忘记密码</p>
+        </a>
+        <a href="#tab6" class="weui-tabbar__item register_user" style="display: none">
+            <div class="weui-tabbar__icon">
+                <i class="fa fa-user fa-5x"></i>
+            </div>
+            <p class="weui-tabbar__label">注册用户</p>
+        </a>
     </div>
+    <!--底部导航栏end-->
 </div>
 
+</body>
 <script src="/mui/mui.min.js"></script>
 <script src="/jquery/jquery.min.js"></script>
 <script src="/jquery/jquery-weui.min.js"></script>
 <script src="/weui/swiper.min.js"></script>
 <script>
-    var mySwiper = new Swiper('.swiper-container',
+
+    /**
+     * 忘记密码
+     */
+    function forgetPassword() {
+        $('.forget').click();
+    }
+
+    /**
+     * 注册用户
+     */
+    function registerUser() {
+        $('.register_user').click();
+    }
+
+    /**
+     * 轮播图
+     */
+    var swiper = new Swiper('.swiper-container',
         {
             speed: 2000,//播放速度
             autoHeight: true,
@@ -145,6 +260,6 @@
             effect: 'slide',//动画效果
         }
     );
+
 </script>
-</body>
 </html>

@@ -1,0 +1,152 @@
+html, body {
+    height: 100%;
+    background-color: #2b2e35;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.title {
+    top: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+}
+#searchBar {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.weui-search-bar:after {
+    border: none;
+}
+
+
+
+/*.weui-tabbar {*/
+    /*background-color: #393c43;*/
+/*}*/
+
+.slide {
+    height: 215px;
+}
+
+
+
+.search {
+    position: relative;
+    width: 100%;
+}
+.weui-media-box {
+    padding: 2px;
+    color: white !important;
+}
+.weui-flex__item{
+    margin: 2%;
+    width: 30%;
+    background-color: #3c3f45;
+    box-shadow: rgb(221,221,221) 0 0 50px inset;
+}
+.weui-media-box_appmsg .weui-media-box__hd {
+    margin-right: 0;
+    width: 54px;
+    height: 54px;
+}
+
+.right_arrows{
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid white;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+/**
+用户登陆
+ */
+
+.logo{
+    line-height: 100px;
+    margin: 0 auto;
+    width: 140px;
+}
+.logo img{
+    width: 100%;
+}
+.name{
+    text-align: center;
+    color: #aaa;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.input-wrap{
+    display: flex;
+    height: 36px;
+    width: 80%;
+    margin: 20px auto;
+}
+.input-wrap i{
+    width: 50px;
+    text-align: center;
+    background-color: #eeee;
+    border-right: none;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px 0 0 4px;
+}
+.input-wrap input{
+    border-radius: 0 4px 4px 0;
+}
+
+.vcode{
+    display: flex;
+    height: 36px;
+    width: 80%;
+    margin: 10px auto;
+}
+.vcode i{
+    width: 50px;
+    text-align: center;
+    background-color: #eeee;
+    border-right: none;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px 0 0 4px;
+}
+.vcode input{
+    height: 40px;
+    border-radius: 0 4px 4px 0;
+    width: 60%;
+}
+.code{
+    margin-left: 10%;
+}
+.code img{
+    width: 100%;
+    height: 100%;
+}
+.forget_password{
+    float: right;
+    color: dodgerblue;
+    margin-right: 10%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.login-btn{
+    clear: both;
+    width: 80%;
+    margin: 20px auto;
+}
+.weui-btn_primary {
+    background-color: #1AACDF;
+}
+.register{
+    float: right;
+    color: dodgerblue;
+    margin-right: 10%;
+}

@@ -100,14 +100,13 @@
         });
 
         window.startUpload =  function() {
-
             if (fileArr.length != 0) {
                 var formData = new FormData();
                 for (var i = 0; i < fileArr.length; i++) {
                     formData.append("file[]", fileArr[i]);
                 }
                 $.ajax({
-                    url: "../../xxx/xxx.do",
+                    url: "/api/upload",
                     type: "POST",
                     async: false,
                     cache: false,
@@ -115,6 +114,7 @@
                     contentType: false,// 告诉jQuery不要去设置Content-Type请求头
                     data: formData,
                     success: function (data) {
+
                     }
                 });
 
@@ -124,8 +124,6 @@
                 $.toast("未知错误，请于管理员联系", 2000);
             }
         }
-
-
     });
 </script>
 </body>
